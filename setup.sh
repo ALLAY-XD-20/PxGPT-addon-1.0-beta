@@ -88,6 +88,15 @@ create_plugin() {
     sleep 3
 }
 
+install_tailscale() {
+    echo -e "${YELLOW}[!] Installing Tailscale...${RESET}"
+    curl -fsSL https://tailscale.com/install.sh | sh
+    sudo systemctl enable --now tailscaled
+    sudo tailscale up
+    echo -e "${GREEN}[+] Tailscale Installed Successfully!${RESET}"
+    sleep 2
+}
+
 # --- Main Logic ---
 loading_animation
 while true; do
@@ -97,7 +106,8 @@ while true; do
     echo "3) Install Java 25"
     echo "4) Set Java 25 as Auto-Default"
     echo "5) Setup New Minecraft Plugin"
-    echo "6) Exit"
+    echo "6) Install Tailscale"
+    echo "0) Exit"
     echo -e "------------------------------------"
     read -p "PxGPT >> " choice
 
@@ -107,7 +117,8 @@ while true; do
         3) install_java25 ;;
         4) set_java_auto ;;
         5) create_plugin ;;
-        6) echo "Goodbye!"; exit ;;
+        6) install_tailscale ;;
+        0) echo "Goodbye!"; exit ;;
         *) echo -e "${YELLOW}Invalid option!${RESET}"; sleep 1 ;;
     esac
 done
